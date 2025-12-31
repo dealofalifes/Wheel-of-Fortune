@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: facefc98484b2ec4f87f91daf1b9b5f3, type: 3}
+  m_Name: reward_coin_2
+  m_EditorClassIdentifier: 
+  Id: coin_2
+  ShowcaseIcon: {fileID: 21300000, guid: 8ba63a699d6a19744b39edaa03fd9025, type: 3}
+  RewardIcon: {fileID: 21300000, guid: 8ba63a699d6a19744b39edaa03fd9025, type: 3}
+  Type: 1
+  Amount: 2
+  UiColor: {r: 0.9082471, g: 1, b: 0.3679244, a: 1}

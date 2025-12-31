@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b370822a62b0d446b5d22310be1b3fb, type: 3}
+  m_Name: super_zone_1
+  m_EditorClassIdentifier: 
+  ZoneType: 2
+  Slices:
+  - {fileID: 11400000, guid: 533a7dbb5875efd47995f80df38d90e2, type: 2}
+  - {fileID: 11400000, guid: c8d837e99fc08d54aa1acc6648745156, type: 2}
+  - {fileID: 11400000, guid: ac6c87a0f32fc474385cd0dee3318ce2, type: 2}
+  - {fileID: 11400000, guid: 1816f6daacc2d4f46a0f816d8270df1c, type: 2}
+  - {fileID: 11400000, guid: e2ce5c00394b0ca4993f3a8ab652d297, type: 2}
+  - {fileID: 11400000, guid: 9e987c599839699499e527f772a7b6c3, type: 2}
+  - {fileID: 11400000, guid: dd554d6e1cdfd9d4c83a1c55d4345090, type: 2}
+  - {fileID: 11400000, guid: 9c060a8116130e34e9adff8a093205ec, type: 2}
