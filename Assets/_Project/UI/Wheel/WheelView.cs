@@ -25,13 +25,10 @@ public class WheelView : MonoBehaviour
     [SerializeField] private float settleBackDuration = 1f;
     [SerializeField] private int extraRotations = 3;
 
-    [Header("Runtime & Debug")]
-    [SerializeField] private WheelSpinDemo wheelSpinDemo;
-
     private Tween spinTween;
-    public void Init(WheelSpinDemo wheelSpinDemo, Action onSpinClicked, ZoneSpinConfig currentZone)
+    public void Init(Action onSpinClicked)
     {
-        this.wheelSpinDemo = wheelSpinDemo;
+        spinButton.onClick.RemoveAllListeners();
         spinButton.onClick.AddListener(()=> onSpinClicked?.Invoke());
     }
 
@@ -48,13 +45,9 @@ public class WheelView : MonoBehaviour
         const int sliceCount = 8;
         float anglePerSlice = 360f / sliceCount;
 
-        // Pointer offset (2 slices)
-        //float offset = anglePerSlice * 2f;
-
         float targetAngle = sliceIndex * anglePerSlice;
-        float mainSpinAngle = extraRotations * 360f - targetAngle; //- offset;
+        float mainSpinAngle = extraRotations * 360f - targetAngle;
 
-        Debug.Log("targetAngle: " + targetAngle + " / mainSpinAngle: " + mainSpinAngle);
         float overshootAngle = UnityEngine.Random.Range(5f, 15f);
         float wobbleAngle = 3f;
 
@@ -98,11 +91,16 @@ public class WheelView : MonoBehaviour
 
         seq.OnComplete(() =>
         {
-            spinButton.interactable = true;
+            Invoke(nameof(SetSpinButtonInteractable), 0.5f);
             onSpinEnd?.Invoke();
         });
 
         spinTween = seq;
+    }
+
+    private void SetSpinButtonInteractable()
+    {
+        spinButton.interactable = true;
     }
 
     private void UpdateSlotElements(ZoneSpinConfig currentZone)
@@ -122,12 +120,12 @@ public class WheelView : MonoBehaviour
 
     private void UpdateWheelSkin(int currentZone)
     {
-        if (currentZone % 30 == 0)
+        if (currentZone % WheelSpinDemo.superMod == 0)
         {
             wheelImage.sprite = wheelSprites[(int)WheelType.Gold];
             indicatorImage.sprite = indicatorSprites[(int)WheelType.Gold];
         }
-        else if (currentZone % 5 == 0)
+        else if (currentZone % WheelSpinDemo.safeMod == 0)
         {
             wheelImage.sprite = wheelSprites[(int)WheelType.Silver];
             indicatorImage.sprite = indicatorSprites[(int)WheelType.Silver];

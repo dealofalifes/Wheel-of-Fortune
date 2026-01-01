@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: reward_shotgunPoint_1
   m_EditorClassIdentifier: 
   Id: shotgunPoint_1
+  RewardName: Shotgun Point
   ShowcaseIcon: {fileID: 21300000, guid: 6f41218cc58f71544abe926e7da072b3, type: 3}
   RewardIcon: {fileID: 21300000, guid: 8a879c694a5b599418b39bb6aa992b6c, type: 3}
   Type: 5

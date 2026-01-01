@@ -4,15 +4,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WheelUIElement : MonoBehaviour
+public class RewardUIElement : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private Image rewardIcon;
     [SerializeField] private TextMeshProUGUI rewardAmountText;
 
-    public void UpdateUI(WheelSliceDefinition sliceDef)
+    public void UpdateUI(RewardDefinition reward, int amount)
     {
-        rewardIcon.sprite = sliceDef.Reward.ShowcaseIcon;
-        rewardAmountText.text = "x" + sliceDef.Reward.Amount.ToString();
+        rewardIcon.sprite = reward.RewardIcon;
+        rewardAmountText.text = "x" + amount.ToString();
     }
 }

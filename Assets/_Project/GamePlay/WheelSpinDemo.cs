@@ -9,6 +9,10 @@ public class WheelSpinDemo : MonoBehaviour
 {
     [Header("Views")]
     [SerializeField] private WheelView wheelView;
+    [SerializeField] private HeaderZoneView zoneView;
+    [SerializeField] private RewardsView rewardView;
+    [SerializeField] private RewardShowcaseView showcaseView;
+    [SerializeField] private ZoneTargetView zoneTargetView;
 
     [Header("Zone Configs")]
     [SerializeField] private ZoneSpinConfig[] zoneConfigs;
@@ -20,16 +24,34 @@ public class WheelSpinDemo : MonoBehaviour
     [SerializeField] private ZoneSpinConfig currentZoneConfig;
     [SerializeField] private WheelSliceDefinition currentSliceDefinition;
 
+    public static int safeMod = 5;
+    public static int superMod = 30;
+
     private WheelResolver wheelResolver;
     private RunRewardState currentRewards;
     private void Start()
     {
-        currentZoneConfig = zoneConfigs[currentZone - 1];
+        StartGame();
+    }
 
+    public void StartGame()
+    {
         currentRewards = new();
         wheelResolver = new();
-        wheelView.Init(this, Spin, currentZoneConfig);
+
+        currentZone = 1;
+        currentZoneConfig = zoneConfigs[currentZone - 1];
+
+        wheelView.Init(Spin);
         wheelView.UpdateUI(currentZoneConfig, currentZone);
+
+        rewardView.Init(OnExitButtonClicked);
+
+        zoneView.Init();
+        showcaseView.Init();
+
+        zoneTargetView.Init();
+        zoneTargetView.UpdateUI(currentZone);
     }
 
     private void Spin()
@@ -53,11 +75,17 @@ public class WheelSpinDemo : MonoBehaviour
         }
         else
         {
-            currentRewards.AddReward(currentSliceDefinition.Reward);
+            int totalAmount = currentRewards.AddReward(currentSliceDefinition.Reward);
             currentZone++;
             currentZoneConfig = PickNewZone();
+
             wheelView.UpdateUI(currentZoneConfig, currentZone);
-            Debug.Log("Reward " + currentSliceDefinition.Reward.Id + " has been added! Current Zone: " + currentZone);
+            rewardView.UpdateReward(currentSliceDefinition.Reward, totalAmount);
+            zoneView.SetLevel(currentZone);
+
+            showcaseView.Open(currentSliceDefinition.Reward, currentSliceDefinition.Reward.Amount);
+
+            zoneTargetView.UpdateUI(currentZone);
         }
     }
 
@@ -82,6 +110,11 @@ public class WheelSpinDemo : MonoBehaviour
 
         int randomIndex = Random.Range(0, candidates.Length);
         return candidates[randomIndex];
+    }
+
+    public void OnExitButtonClicked()
+    {
+
     }
 
 #if UNITY_EDITOR

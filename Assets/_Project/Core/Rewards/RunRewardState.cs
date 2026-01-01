@@ -11,12 +11,19 @@ public class RunRewardState
         _rewards = new Dictionary<RewardType, int>();
     }
 
-    public void AddReward(RewardDefinition reward)
+    public int AddReward(RewardDefinition reward)
     {
         if (!_rewards.ContainsKey(reward.Type))
             _rewards[reward.Type] = 0;
 
         _rewards[reward.Type] += reward.Amount;
+
+        return _rewards[reward.Type];
+    }
+
+    public Dictionary<RewardType, int> GetRewards()
+    {
+        return new Dictionary<RewardType, int>(_rewards);
     }
 
     public void Clear()

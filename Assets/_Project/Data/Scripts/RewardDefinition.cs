@@ -8,6 +8,7 @@ public class RewardDefinition : ScriptableObject
 {
     [Header("Identity")]
     public string Id;
+    public string RewardName;
     public Sprite ShowcaseIcon;
     public Sprite RewardIcon;
 
