@@ -3,27 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WheelResolver
+namespace FortuneWheel
 {
-    public int Resolve(ZoneSpinConfig config)
+    public class WheelResolver
     {
-        if (config == null || config.Slices.Count == 0)
-            return -1;
-
-        int totalWeight = 0;
-        for (int i = 0; i < config.Slices.Count; i++)
-            totalWeight += config.Slices[i].Weight;
-
-        int roll = Random.Range(0, totalWeight);
-
-        int cumulative = 0;
-        for (int i = 0; i < config.Slices.Count; i++)
+        public int Resolve(ZoneSpinConfig config)
         {
-            cumulative += config.Slices[i].Weight;
-            if (roll < cumulative)
-                return i;
-        }
+            if (config == null || config.Slices.Count == 0)
+                return -1;
 
-        return config.Slices.Count - 1;
+            int totalWeight = 0;
+            for (int i = 0; i < config.Slices.Count; i++)
+                totalWeight += config.Slices[i].Weight;
+
+            int roll = Random.Range(0, totalWeight);
+
+            int cumulative = 0;
+            for (int i = 0; i < config.Slices.Count; i++)
+            {
+                cumulative += config.Slices[i].Weight;
+                if (roll < cumulative)
+                    return i;
+            }
+
+            return config.Slices.Count - 1;
+        }
     }
 }

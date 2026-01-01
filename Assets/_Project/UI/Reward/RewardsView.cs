@@ -4,53 +4,56 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RewardsView : MonoBehaviour
+namespace FortuneWheel.UI
 {
-    [Header("UI")]
-    [SerializeField] private RewardUIElement rewardPrefab;
-    [SerializeField] private Transform rewardPrefabsHolder;
-    [SerializeField] private Button exitButton;
-
-    private readonly Dictionary<RewardType, RewardUIElement> _rewardElements
-        = new Dictionary<RewardType, RewardUIElement>();
-
-    public void Init(Action onExitButtonClicked)
+    public class RewardsView : MonoBehaviour
     {
-        ClearRewardElements();
-        _rewardElements.Clear();
+        [Header("UI")]
+        [SerializeField] private RewardUIElement rewardPrefab;
+        [SerializeField] private Transform rewardPrefabsHolder;
+        [SerializeField] private Button exitButton;
 
-        exitButton.onClick.RemoveAllListeners();
-        exitButton.onClick.AddListener(() => onExitButtonClicked?.Invoke());
-    }
+        private readonly Dictionary<RewardType, RewardUIElement> _rewardElements
+            = new Dictionary<RewardType, RewardUIElement>();
 
-    //To update whole elements at once if necessary
-    public void UpdateUI(Dictionary<RewardDefinition, int> rewards)
-    {
-        foreach (var kvp in rewards)
-            UpdateReward(kvp.Key, kvp.Value);
-    }
-
-    public void UpdateReward(RewardDefinition rewardDef, int amount)
-    {
-        if (!_rewardElements.TryGetValue(rewardDef.Type, out var element))
+        public void Init(Action onExitButtonClicked)
         {
-            element = CreateRewardElement(rewardDef.Type);
-            _rewardElements.Add(rewardDef.Type, element);
+            ClearRewardElements();
+            _rewardElements.Clear();
+
+            exitButton.onClick.RemoveAllListeners();
+            exitButton.onClick.AddListener(() => onExitButtonClicked?.Invoke());
         }
 
-        element.UpdateUI(rewardDef, amount);
-        element.gameObject.SetActive(true);
-    }
+        //To update whole elements at once if necessary
+        public void UpdateUI(Dictionary<RewardDefinition, int> rewards)
+        {
+            foreach (var kvp in rewards)
+                UpdateReward(kvp.Key, kvp.Value);
+        }
 
-    private RewardUIElement CreateRewardElement(RewardType type)
-    {
-        return Instantiate(rewardPrefab, rewardPrefabsHolder);
-    }
+        public void UpdateReward(RewardDefinition rewardDef, int amount)
+        {
+            if (!_rewardElements.TryGetValue(rewardDef.Type, out var element))
+            {
+                element = CreateRewardElement(rewardDef.Type);
+                _rewardElements.Add(rewardDef.Type, element);
+            }
 
-    private void ClearRewardElements()
-    {
-        int length = rewardPrefabsHolder.childCount;
-        for (int i = length - 1; i >= 0; i--)
-            Destroy(rewardPrefabsHolder.GetChild(i).gameObject);
+            element.UpdateUI(rewardDef, amount);
+            element.gameObject.SetActive(true);
+        }
+
+        private RewardUIElement CreateRewardElement(RewardType type)
+        {
+            return Instantiate(rewardPrefab, rewardPrefabsHolder);
+        }
+
+        private void ClearRewardElements()
+        {
+            int length = rewardPrefabsHolder.childCount;
+            for (int i = length - 1; i >= 0; i--)
+                Destroy(rewardPrefabsHolder.GetChild(i).gameObject);
+        }
     }
 }

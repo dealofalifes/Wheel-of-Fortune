@@ -4,157 +4,176 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using FortuneWheel.UI;
 
-public class WheelSpinDemo : MonoBehaviour
+namespace FortuneWheel
 {
-    [Header("Views")]
-    [SerializeField] private WheelView wheelView;
-    [SerializeField] private HeaderZoneView zoneView;
-    [SerializeField] private RewardsView rewardView;
-    [SerializeField] private RewardShowcaseView showcaseView;
-    [SerializeField] private ZoneTargetView zoneTargetView;
-
-    [Header("Zone Configs")]
-    [SerializeField] private ZoneSpinConfig[] zoneConfigs;
-
-    [Header("Runtime & Debug")]
-    [SerializeField] private int currentZone = 1;
-    [SerializeField] private bool isSpinning;
-
-    [SerializeField] private ZoneSpinConfig currentZoneConfig;
-    [SerializeField] private WheelSliceDefinition currentSliceDefinition;
-
-    public static int safeMod = 5;
-    public static int superMod = 30;
-
-    private WheelResolver wheelResolver;
-    private RunRewardState currentRewards;
-    private void Start()
+    public class WheelSpinDemo : MonoBehaviour
     {
-        StartGame();
-    }
+        [Header("Views")]
+        [SerializeField] private WheelView wheelView;
+        [SerializeField] private HeaderZoneView zoneView;
+        [SerializeField] private RewardsView rewardView;
+        [SerializeField] private RewardShowcaseView showcaseView;
+        [SerializeField] private ZoneTargetView zoneTargetView;
+        [SerializeField] private ReviveView reviveView;
+        [SerializeField] private ExitView exitView;
 
-    public void StartGame()
-    {
-        currentRewards = new();
-        wheelResolver = new();
+        [Header("Zone Configs")]
+        [SerializeField] private ZoneSpinConfig[] zoneConfigs;
 
-        currentZone = 1;
-        currentZoneConfig = zoneConfigs[currentZone - 1];
+        [Header("Runtime & Debug")]
+        [SerializeField] private int currentZone = 1;
+        [SerializeField] private bool isSpinning;
 
-        wheelView.Init(Spin);
-        wheelView.UpdateUI(currentZoneConfig, currentZone);
+        [SerializeField] private ZoneSpinConfig currentZoneConfig;
+        [SerializeField] private WheelSliceDefinition currentSliceDefinition;
 
-        rewardView.Init(OnExitButtonClicked);
+        public static int safeMod = 5;
+        public static int superMod = 30;
 
-        zoneView.Init();
-        showcaseView.Init();
-
-        zoneTargetView.Init();
-        zoneTargetView.UpdateUI(currentZone);
-    }
-
-    private void Spin()
-    {
-        if (isSpinning)
-            return;
-
-        int sliceIndex = wheelResolver.Resolve(currentZoneConfig);
-        currentSliceDefinition = currentZoneConfig.Slices[sliceIndex];
-
-        wheelView.OnSpinStart(OnSpinEnd, sliceIndex);
-    }
-
-    public void OnSpinEnd()
-    {
-        isSpinning = false;
-
-        if (currentSliceDefinition.SliceType == WheelSliceType.Bomb)
+        private WheelResolver wheelResolver;
+        private RunRewardState currentRewards;
+        private void Start()
         {
-            Debug.Log("Bomb has been found!");
+            StartGame();
         }
-        else
-        {
-            int totalAmount = currentRewards.AddReward(currentSliceDefinition.Reward);
-            currentZone++;
-            currentZoneConfig = PickNewZone();
 
+        public void StartGame()
+        {
+            isSpinning = false;
+
+            currentRewards = new();
+            wheelResolver = new();
+
+            currentZone = 1;
+            currentZoneConfig = zoneConfigs[currentZone - 1];
+
+            wheelView.Init(Spin);
             wheelView.UpdateUI(currentZoneConfig, currentZone);
-            rewardView.UpdateReward(currentSliceDefinition.Reward, totalAmount);
-            zoneView.SetLevel(currentZone);
 
-            showcaseView.Open(currentSliceDefinition.Reward, currentSliceDefinition.Reward.Amount);
+            rewardView.Init(OnExitButtonClicked);
 
+            zoneView.Init();
+            showcaseView.Init();
+
+            zoneTargetView.Init();
             zoneTargetView.UpdateUI(currentZone);
-        }
-    }
 
-    private ZoneSpinConfig PickNewZone()
-    {
-        ZoneType nextZoneType = ZoneType.Normal;
+            reviveView.Init(OnRestartButtonClicked);
 
-        if (currentZone % 30 == 0)
-            nextZoneType = ZoneType.Super;
-        else if (currentZone % 5 == 0)
-            nextZoneType = ZoneType.Safe;
-
-        var candidates = zoneConfigs
-            .Where(z => z.ZoneType == nextZoneType)
-            .ToArray();
-
-        if (candidates.Length == 0)
-        {
-            Debug.LogError($"No ZoneSpinConfig found for ZoneType: {nextZoneType}");
-            return null;
+            exitView.Init();
         }
 
-        int randomIndex = Random.Range(0, candidates.Length);
-        return candidates[randomIndex];
-    }
-
-    public void OnExitButtonClicked()
-    {
-
-    }
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        FindReferences();
-        CollectAndSortZoneConfigs();
-    }
-
-    private void FindReferences()
-    {
-        if(wheelView == null)
+        private void Spin()
         {
-            var wheelViewRef = FindFirstObjectByType<WheelView>();
+            if (isSpinning)
+                return;
 
-            if (wheelViewRef != null)
+            int sliceIndex = wheelResolver.Resolve(currentZoneConfig);
+            currentSliceDefinition = currentZoneConfig.Slices[sliceIndex];
+
+            wheelView.OnSpinStart(OnSpinEnd, sliceIndex);
+        }
+
+        public void OnSpinEnd()
+        {
+            isSpinning = false;
+
+            if (currentSliceDefinition.SliceType == WheelSliceType.Bomb)
             {
-                wheelView = wheelViewRef;
+                reviveView.Open();
             }
             else
             {
-                Debug.LogError("There is no WheelView Component on the Scene!");
+                int totalAmount = currentRewards.AddReward(currentSliceDefinition.Reward);
+                currentZone++;
+                currentZoneConfig = PickNewZone();
+
+                wheelView.UpdateUI(currentZoneConfig, currentZone);
+                rewardView.UpdateReward(currentSliceDefinition.Reward, totalAmount);
+                zoneView.SetLevel(currentZone);
+
+                showcaseView.Open(currentSliceDefinition.Reward, currentSliceDefinition.Reward.Amount);
+
+                zoneTargetView.UpdateUI(currentZone);
             }
         }
-    }
 
-    private void CollectAndSortZoneConfigs()
-    {
-        // Find all ZoneSpinConfig assets in the project
-        string[] guids = AssetDatabase.FindAssets("t:ZoneSpinConfig");
+        private ZoneSpinConfig PickNewZone()
+        {
+            ZoneType nextZoneType = ZoneType.Normal;
 
-        zoneConfigs = guids
-            .Select(guid =>
-                AssetDatabase.LoadAssetAtPath<ZoneSpinConfig>(
-                    AssetDatabase.GUIDToAssetPath(guid)))
-            .Where(config => config != null)
-            .ToArray();
+            if (currentZone % 30 == 0)
+                nextZoneType = ZoneType.Super;
+            else if (currentZone % 5 == 0)
+                nextZoneType = ZoneType.Safe;
 
-        // Mark object dirty so Unity saves the change
-        EditorUtility.SetDirty(this);
-    }
+            var candidates = zoneConfigs
+                .Where(z => z.ZoneType == nextZoneType)
+                .ToArray();
+
+            if (candidates.Length == 0)
+            {
+                Debug.LogError($"No ZoneSpinConfig found for ZoneType: {nextZoneType}");
+                return null;
+            }
+
+            int randomIndex = Random.Range(0, candidates.Length);
+            return candidates[randomIndex];
+        }
+
+        public void OnExitButtonClicked()
+        {
+
+        }
+
+        public void OnRestartButtonClicked()
+        {
+            isSpinning = true;
+
+            Invoke(nameof(StartGame), 1);
+        }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            FindReferences();
+            CollectAndSortZoneConfigs();
+        }
+
+        private void FindReferences()
+        {
+            if (wheelView == null)
+            {
+                var wheelViewRef = FindFirstObjectByType<WheelView>();
+
+                if (wheelViewRef != null)
+                {
+                    wheelView = wheelViewRef;
+                }
+                else
+                {
+                    Debug.LogError("There is no WheelView Component on the Scene!");
+                }
+            }
+        }
+
+        private void CollectAndSortZoneConfigs()
+        {
+            // Find all ZoneSpinConfig assets in the project
+            string[] guids = AssetDatabase.FindAssets("t:ZoneSpinConfig");
+
+            zoneConfigs = guids
+                .Select(guid =>
+                    AssetDatabase.LoadAssetAtPath<ZoneSpinConfig>(
+                        AssetDatabase.GUIDToAssetPath(guid)))
+                .Where(config => config != null)
+                .ToArray();
+
+            // Mark object dirty so Unity saves the change
+            EditorUtility.SetDirty(this);
+        }
 #endif
+    }
 }

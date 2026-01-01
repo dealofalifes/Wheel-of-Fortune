@@ -2,32 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RunRewardState
+namespace FortuneWheel
 {
-    private readonly Dictionary<RewardType, int> _rewards;
-
-    public RunRewardState()
+    public class RunRewardState
     {
-        _rewards = new Dictionary<RewardType, int>();
-    }
+        private readonly Dictionary<RewardType, int> _rewards;
 
-    public int AddReward(RewardDefinition reward)
-    {
-        if (!_rewards.ContainsKey(reward.Type))
-            _rewards[reward.Type] = 0;
+        public RunRewardState()
+        {
+            _rewards = new Dictionary<RewardType, int>();
+        }
 
-        _rewards[reward.Type] += reward.Amount;
+        public int AddReward(RewardDefinition reward)
+        {
+            if (!_rewards.ContainsKey(reward.Type))
+                _rewards[reward.Type] = 0;
 
-        return _rewards[reward.Type];
-    }
+            _rewards[reward.Type] += reward.Amount;
 
-    public Dictionary<RewardType, int> GetRewards()
-    {
-        return new Dictionary<RewardType, int>(_rewards);
-    }
+            return _rewards[reward.Type];
+        }
 
-    public void Clear()
-    {
-        _rewards.Clear();
+        public Dictionary<RewardType, int> GetRewards()
+        {
+            return new Dictionary<RewardType, int>(_rewards);
+        }
+
+        public void Clear()
+        {
+            _rewards.Clear();
+        }
     }
 }

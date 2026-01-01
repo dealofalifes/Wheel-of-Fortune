@@ -5,21 +5,24 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ZoneLevelUIElement : MonoBehaviour
+namespace FortuneWheel.UI
 {
-    [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private Image highlight;
-
-    public void SetLevel(int level, Color zoneColor)
+    public class ZoneLevelUIElement : MonoBehaviour
     {
-        levelText.color = zoneColor;
-        levelText.text = level > 0 ? level.ToString() : "";
-        highlight.color = zoneColor;
-        highlight.gameObject.SetActive(false);
-    }
+        [SerializeField] private TextMeshProUGUI levelText;
+        [SerializeField] private Image highlight;
 
-    public void SetActive(bool active)
-    {
-        highlight.gameObject.SetActive(active);
+        public void SetLevel(int level, Color zoneColor)
+        {
+            levelText.color = zoneColor;
+            levelText.text = level > 0 ? level.ToString() : "";
+            highlight.color = zoneColor;
+            highlight.gameObject.SetActive(false);
+        }
+
+        public void SetActive(bool active)
+        {
+            highlight.gameObject.SetActive(active);
+        }
     }
 }

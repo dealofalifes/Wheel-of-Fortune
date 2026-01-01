@@ -3,38 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ZoneTargetView : MonoBehaviour
+namespace FortuneWheel.UI
 {
-    [Header("UI")]
-    [SerializeField] private TextMeshProUGUI superZoneText;
-    [SerializeField] private TextMeshProUGUI safeZoneText;
-
-    public void Init()
+    public class ZoneTargetView : MonoBehaviour
     {
-        //for later
-    }
+        [Header("UI")]
+        [SerializeField] private TextMeshProUGUI superZoneText;
+        [SerializeField] private TextMeshProUGUI safeZoneText;
 
-    public void UpdateUI(int currentZone)
-    {
-        int safeMod = WheelSpinDemo.safeMod;
-        int superMod = WheelSpinDemo.superMod;
+        public void Init()
+        {
+            //for later
+        }
 
-        int nextSafeZone = GetNextOrCurrentZone(currentZone, safeMod);
-        int nextSuperZone = GetNextOrCurrentZone(currentZone, superMod);
+        public void UpdateUI(int currentZone)
+        {
+            int safeMod = WheelSpinDemo.safeMod;
+            int superMod = WheelSpinDemo.superMod;
 
-        // Super zone has priority: safe zone cannot equal super zone
-        if (nextSafeZone == nextSuperZone)
-            nextSafeZone += safeMod;
+            int nextSafeZone = GetNextOrCurrentZone(currentZone, safeMod);
+            int nextSuperZone = GetNextOrCurrentZone(currentZone, superMod);
 
-        safeZoneText.text = nextSafeZone.ToString();
-        superZoneText.text = nextSuperZone.ToString();
-    }
+            // Super zone has priority: safe zone cannot equal super zone
+            if (nextSafeZone == nextSuperZone)
+                nextSafeZone += safeMod;
 
-    private int GetNextOrCurrentZone(int currentZone, int mod)
-    {
-        if (mod <= 0)
-            return currentZone;
+            safeZoneText.text = nextSafeZone.ToString();
+            superZoneText.text = nextSuperZone.ToString();
+        }
 
-        return ((currentZone + mod - 1) / mod) * mod;
+        private int GetNextOrCurrentZone(int currentZone, int mod)
+        {
+            if (mod <= 0)
+                return currentZone;
+
+            return ((currentZone + mod - 1) / mod) * mod;
+        }
     }
 }

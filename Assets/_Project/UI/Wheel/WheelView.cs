@@ -7,140 +7,143 @@ using UnityEngine.UI;
 
 using Random = UnityEngine.Random;
 
-public class WheelView : MonoBehaviour
+namespace FortuneWheel.UI
 {
-    [Header("Elements")]
-    [SerializeField] private WheelUIElement[] slots = new WheelUIElement[8];
-
-    [Header("UI")]
-    [SerializeField] private RectTransform wheelRoot;
-    [SerializeField] private Image wheelImage;
-    [SerializeField] private Image indicatorImage;
-    [SerializeField] private Sprite[] wheelSprites;
-    [SerializeField] private Sprite[] indicatorSprites;
-    [SerializeField] private Button spinButton;
-
-    [Header("Flow")]
-    [SerializeField] private float spinDuration = 3f;
-    [SerializeField] private float settleBackDuration = 1f;
-    [SerializeField] private int extraRotations = 3;
-
-    private Tween spinTween;
-    public void Init(Action onSpinClicked)
+    public class WheelView : MonoBehaviour
     {
-        spinButton.onClick.RemoveAllListeners();
-        spinButton.onClick.AddListener(()=> onSpinClicked?.Invoke());
-    }
+        [Header("Elements")]
+        [SerializeField] private WheelUIElement[] slots = new WheelUIElement[8];
 
-    public void UpdateUI(ZoneSpinConfig currentZone, int currentZoneIndex)
-    {
-        UpdateSlotElements(currentZone);
-        UpdateWheelSkin(currentZoneIndex);
-    }
+        [Header("UI")]
+        [SerializeField] private RectTransform wheelRoot;
+        [SerializeField] private Image wheelImage;
+        [SerializeField] private Image indicatorImage;
+        [SerializeField] private Sprite[] wheelSprites;
+        [SerializeField] private Sprite[] indicatorSprites;
+        [SerializeField] private Button spinButton;
 
-    public void OnSpinStart(Action onSpinEnd, int sliceIndex)
-    {
-        spinButton.interactable = false;
+        [Header("Flow")]
+        [SerializeField] private float spinDuration = 3f;
+        [SerializeField] private float settleBackDuration = 1f;
+        [SerializeField] private int extraRotations = 3;
 
-        const int sliceCount = 8;
-        float anglePerSlice = 360f / sliceCount;
-
-        float targetAngle = sliceIndex * anglePerSlice;
-        float mainSpinAngle = extraRotations * 360f - targetAngle;
-
-        float overshootAngle = UnityEngine.Random.Range(5f, 15f);
-        float wobbleAngle = 3f;
-
-        spinTween?.Kill();
-
-        Sequence seq = DOTween.Sequence();
-
-        // 1. FAST START + MAIN SPIN
-        seq.Append(
-            wheelRoot.DORotate(
-                new Vector3(0, 0, -(mainSpinAngle + overshootAngle)),
-                spinDuration,
-                RotateMode.FastBeyond360
-            ).SetEase(Ease.OutQuart) // important
-        );
-
-        // 2. MICRO VIBRATION (left-right-left-stop)
-        seq.Append(
-            wheelRoot.DORotate(
-                new Vector3(0, 0, -(mainSpinAngle - wobbleAngle)),
-                settleBackDuration,
-                RotateMode.Fast
-            ).SetEase(Ease.InOutSine)
-        );
-
-        seq.Append(
-            wheelRoot.DORotate(
-                new Vector3(0, 0, -(mainSpinAngle + wobbleAngle * 0.5f)),
-                settleBackDuration / 2f,
-                RotateMode.Fast
-            ).SetEase(Ease.InOutSine)
-        );
-
-        seq.Append(
-            wheelRoot.DORotate(
-                new Vector3(0, 0, -mainSpinAngle),
-                settleBackDuration / 2f,
-                RotateMode.Fast
-            ).SetEase(Ease.OutSine)
-        );
-
-        seq.OnComplete(() =>
+        private Tween spinTween;
+        public void Init(Action onSpinClicked)
         {
-            Invoke(nameof(SetSpinButtonInteractable), 0.5f);
-            onSpinEnd?.Invoke();
-        });
-
-        spinTween = seq;
-    }
-
-    private void SetSpinButtonInteractable()
-    {
-        spinButton.interactable = true;
-    }
-
-    private void UpdateSlotElements(ZoneSpinConfig currentZone)
-    {
-        int length = slots.Length;
-        for (int i = 0; i < length; i++)
-        {
-            var slideDef = currentZone.Slices[i];
-            slots[i].UpdateUI(slideDef);
+            spinButton.onClick.RemoveAllListeners();
+            spinButton.onClick.AddListener(() => onSpinClicked?.Invoke());
         }
-    }
 
-    private void OnDestroy()
-    {
-        spinButton?.onClick.RemoveAllListeners();
-    }
+        public void UpdateUI(ZoneSpinConfig currentZone, int currentZoneIndex)
+        {
+            UpdateSlotElements(currentZone);
+            UpdateWheelSkin(currentZoneIndex);
+        }
 
-    private void UpdateWheelSkin(int currentZone)
-    {
-        if (currentZone % WheelSpinDemo.superMod == 0)
+        public void OnSpinStart(Action onSpinEnd, int sliceIndex)
         {
-            wheelImage.sprite = wheelSprites[(int)WheelType.Gold];
-            indicatorImage.sprite = indicatorSprites[(int)WheelType.Gold];
-        }
-        else if (currentZone % WheelSpinDemo.safeMod == 0)
-        {
-            wheelImage.sprite = wheelSprites[(int)WheelType.Silver];
-            indicatorImage.sprite = indicatorSprites[(int)WheelType.Silver];
-        }
-        else
-        {
-            wheelImage.sprite = wheelSprites[(int)WheelType.Bronze];
-            indicatorImage.sprite = indicatorSprites[(int)WheelType.Bronze];
-        }
-    }
+            spinButton.interactable = false;
 
-    public enum WheelType
-    {
-        Bronze,
-        Silver,
-        Gold,
+            const int sliceCount = 8;
+            float anglePerSlice = 360f / sliceCount;
+
+            float targetAngle = sliceIndex * anglePerSlice;
+            float mainSpinAngle = extraRotations * 360f - targetAngle;
+
+            float overshootAngle = UnityEngine.Random.Range(5f, 15f);
+            float wobbleAngle = 3f;
+
+            spinTween?.Kill();
+
+            Sequence seq = DOTween.Sequence();
+
+            // 1. FAST START + MAIN SPIN
+            seq.Append(
+                wheelRoot.DORotate(
+                    new Vector3(0, 0, -(mainSpinAngle + overshootAngle)),
+                    spinDuration,
+                    RotateMode.FastBeyond360
+                ).SetEase(Ease.OutQuart) // important
+            );
+
+            // 2. MICRO VIBRATION (left-right-left-stop)
+            seq.Append(
+                wheelRoot.DORotate(
+                    new Vector3(0, 0, -(mainSpinAngle - wobbleAngle)),
+                    settleBackDuration,
+                    RotateMode.Fast
+                ).SetEase(Ease.InOutSine)
+            );
+
+            seq.Append(
+                wheelRoot.DORotate(
+                    new Vector3(0, 0, -(mainSpinAngle + wobbleAngle * 0.5f)),
+                    settleBackDuration / 2f,
+                    RotateMode.Fast
+                ).SetEase(Ease.InOutSine)
+            );
+
+            seq.Append(
+                wheelRoot.DORotate(
+                    new Vector3(0, 0, -mainSpinAngle),
+                    settleBackDuration / 2f,
+                    RotateMode.Fast
+                ).SetEase(Ease.OutSine)
+            );
+
+            seq.OnComplete(() =>
+            {
+                Invoke(nameof(SetSpinButtonInteractable), 0.5f);
+                onSpinEnd?.Invoke();
+            });
+
+            spinTween = seq;
+        }
+
+        private void SetSpinButtonInteractable()
+        {
+            spinButton.interactable = true;
+        }
+
+        private void UpdateSlotElements(ZoneSpinConfig currentZone)
+        {
+            int length = slots.Length;
+            for (int i = 0; i < length; i++)
+            {
+                var slideDef = currentZone.Slices[i];
+                slots[i].UpdateUI(slideDef);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            spinButton?.onClick.RemoveAllListeners();
+        }
+
+        private void UpdateWheelSkin(int currentZone)
+        {
+            if (currentZone % WheelSpinDemo.superMod == 0)
+            {
+                wheelImage.sprite = wheelSprites[(int)WheelType.Gold];
+                indicatorImage.sprite = indicatorSprites[(int)WheelType.Gold];
+            }
+            else if (currentZone % WheelSpinDemo.safeMod == 0)
+            {
+                wheelImage.sprite = wheelSprites[(int)WheelType.Silver];
+                indicatorImage.sprite = indicatorSprites[(int)WheelType.Silver];
+            }
+            else
+            {
+                wheelImage.sprite = wheelSprites[(int)WheelType.Bronze];
+                indicatorImage.sprite = indicatorSprites[(int)WheelType.Bronze];
+            }
+        }
+
+        public enum WheelType
+        {
+            Bronze,
+            Silver,
+            Gold,
+        }
     }
 }

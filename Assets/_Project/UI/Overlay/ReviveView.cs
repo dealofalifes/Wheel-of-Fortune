@@ -1,26 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace FortuneWheel.UI
 {
-    public class RewardShowcaseView : MonoBehaviour
+    public class ReviveView : MonoBehaviour
     {
         [Header("UI")]
-        [SerializeField] private TextMeshProUGUI rewardNameText;
-        [SerializeField] private TextMeshProUGUI rewardAmountText;
-        [SerializeField] private Image rewardIcon;
-        [SerializeField] private Image rewardGlowEffectImage;
-        [SerializeField] private Button claimButton;
+        [SerializeField] private Button restartButton;
+        [SerializeField] private Button continueButton;
+
+        [SerializeField] private Image bombIcon;
+        [SerializeField] private Image bombGlowEffectImage;
+
         [SerializeField] private CanvasGroup containerCanvasGroup;
-        [SerializeField] private CanvasGroup claimButtonCanvasGroup;
 
         [Header("Timings")]
         [SerializeField] private float containerFadeDuration = 0.4f;
-        [SerializeField] private float claimButtonDelay = 0.6f;
-        [SerializeField] private float claimButtonFadeDuration = 0.3f;
 
         [Header("Glow Rotation")]
         [SerializeField] private float glowRotationSpeed = 60f; // degrees per second
@@ -36,25 +34,22 @@ namespace FortuneWheel.UI
 
         private Vector3 rewardIconBaseScale;
 
-        public void Init()
+        public void Init(Action onRestartGame)
         {
-            claimButton.onClick.RemoveAllListeners();
-            claimButton.onClick.AddListener(OnClaimButtonClicked);
+            restartButton.onClick.RemoveAllListeners();
+            restartButton.onClick.AddListener(()=> { Close(); onRestartGame?.Invoke(); });
 
-            rewardIconBaseScale = rewardIcon.transform.localScale;
+            continueButton.onClick.RemoveAllListeners();
+            continueButton.onClick.AddListener(Close);
+
+            rewardIconBaseScale = bombIcon.transform.localScale;
             ResetVisualState();
         }
 
-        public void Open(RewardDefinition reward, int amount)
+        public void Open()
         {
             StopAllRunningCoroutines();
             ResetVisualState();
-
-            rewardNameText.text = reward.RewardName;
-            rewardAmountText.text = "x" + amount;
-            rewardIcon.sprite = reward.ShowcaseIcon;
-
-            rewardGlowEffectImage.color = reward.UiColor;
 
             openRoutine = StartCoroutine(OpenSequence());
             glowRoutine = StartCoroutine(GlowRotationLoop());
@@ -67,23 +62,11 @@ namespace FortuneWheel.UI
             closeRoutine = StartCoroutine(CloseSequence());
         }
 
-        private void OnClaimButtonClicked()
-        {
-            Close();
-        }
-
         private IEnumerator OpenSequence()
         {
             containerCanvasGroup.gameObject.SetActive(true);
 
-            // Container fade in
             yield return FadeCanvasGroup(containerCanvasGroup, 0f, 1f, containerFadeDuration);
-
-            // Delay before claim button
-            yield return new WaitForSeconds(claimButtonDelay);
-
-            // Claim button fade in
-            yield return FadeCanvasGroup(claimButtonCanvasGroup, 0f, 1f, claimButtonFadeDuration);
         }
 
         private IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration)
@@ -109,7 +92,7 @@ namespace FortuneWheel.UI
         {
             while (true)
             {
-                rewardGlowEffectImage.transform.Rotate(0f, 0f, -glowRotationSpeed * Time.deltaTime);
+                bombGlowEffectImage.transform.Rotate(0f, 0f, -glowRotationSpeed * Time.deltaTime);
                 yield return null;
             }
         }
@@ -120,8 +103,8 @@ namespace FortuneWheel.UI
 
             while (true)
             {
-                yield return ScaleOverTime(rewardIcon.transform, rewardIconBaseScale, targetScale, pulseDuration * 0.5f);
-                yield return ScaleOverTime(rewardIcon.transform, targetScale, rewardIconBaseScale, pulseDuration * 0.5f);
+                yield return ScaleOverTime(bombIcon.transform, rewardIconBaseScale, targetScale, pulseDuration * 0.5f);
+                yield return ScaleOverTime(bombIcon.transform, targetScale, rewardIconBaseScale, pulseDuration * 0.5f);
             }
         }
 
@@ -142,8 +125,6 @@ namespace FortuneWheel.UI
             // Disable interaction immediately
             containerCanvasGroup.interactable = false;
             containerCanvasGroup.blocksRaycasts = false;
-            claimButtonCanvasGroup.interactable = false;
-            claimButtonCanvasGroup.blocksRaycasts = false;
 
             // Fade out container
             yield return FadeCanvasGroup(
@@ -177,13 +158,8 @@ namespace FortuneWheel.UI
             containerCanvasGroup.interactable = false;
             containerCanvasGroup.blocksRaycasts = false;
 
-            claimButtonCanvasGroup.alpha = 0f;
-            claimButtonCanvasGroup.interactable = false;
-            claimButtonCanvasGroup.blocksRaycasts = false;
-
-            rewardIcon.transform.localScale = rewardIconBaseScale;
-            rewardGlowEffectImage.transform.localRotation = Quaternion.identity;
+            bombIcon.transform.localScale = rewardIconBaseScale;
+            bombGlowEffectImage.transform.localRotation = Quaternion.identity;
         }
     }
 }
-

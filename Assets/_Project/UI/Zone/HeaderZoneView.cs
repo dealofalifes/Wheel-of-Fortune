@@ -3,102 +3,105 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeaderZoneView : MonoBehaviour
+namespace FortuneWheel.UI
 {
-    [Header("UI")]
-    [SerializeField] private RectTransform content;
-    [SerializeField] private ZoneLevelUIElement itemPrefab;
-
-    [Header("Zone Flow")]
-    [SerializeField] private int visibleItemCount = 5;
-    [SerializeField] private float itemSpacing = 100f;
-    [SerializeField] private float moveDuration = 0.35f;
-
-    [Header("Color Bank")]
-    [SerializeField] private Color defaultZoneColor = Color.white;
-    [SerializeField] private Color safeZoneColor = Color.green;
-    [SerializeField] private Color superZoneColor = Color.yellow;
-
-    private readonly List<ZoneLevelUIElement> _items = new();
-    private int _currentZone = 1;
-    private int _centerIndex;
-
-    public void Init()
+    public class HeaderZoneView : MonoBehaviour
     {
-        ClearItems();
-        _items.Clear();
+        [Header("UI")]
+        [SerializeField] private RectTransform content;
+        [SerializeField] private ZoneLevelUIElement itemPrefab;
 
-        _centerIndex = visibleItemCount / 2;
-        _currentZone = 1;
+        [Header("Zone Flow")]
+        [SerializeField] private int visibleItemCount = 5;
+        [SerializeField] private float itemSpacing = 100f;
+        [SerializeField] private float moveDuration = 0.35f;
 
-        InitializeItems();
-        UpdateVisuals();
-    }
+        [Header("Color Bank")]
+        [SerializeField] private Color defaultZoneColor = Color.white;
+        [SerializeField] private Color safeZoneColor = Color.green;
+        [SerializeField] private Color superZoneColor = Color.yellow;
 
-    private void InitializeItems()
-    {
-        for (int i = 0; i < visibleItemCount; i++)
+        private readonly List<ZoneLevelUIElement> _items = new();
+        private int _currentZone = 1;
+        private int _centerIndex;
+
+        public void Init()
         {
-            var item = Instantiate(itemPrefab, content);
-            _items.Add(item);
+            ClearItems();
+            _items.Clear();
 
-            var rect = item.transform as RectTransform;
-            rect.anchoredPosition = new Vector2(i * itemSpacing, 0);
+            _centerIndex = visibleItemCount / 2;
+            _currentZone = 1;
+
+            InitializeItems();
+            UpdateVisuals();
         }
-    }
 
-    public void SetLevel(int level)
-    {
-        if (level <= _currentZone)
-            return;
-
-        _currentZone = level;
-        AnimateShift();
-    }
-
-    private void UpdateVisuals()
-    {
-        for (int i = 0; i < _items.Count; i++)
+        private void InitializeItems()
         {
-            int level = _currentZone + (i - _centerIndex);
-
-            if (level < 1)
+            for (int i = 0; i < visibleItemCount; i++)
             {
-                _items[i].SetLevel(-1, defaultZoneColor); //sets Empty
-            }
-            else
-            {
-                Color zoneColor = defaultZoneColor;
-                if (level % WheelSpinDemo.superMod == 0)
-                    zoneColor = superZoneColor;
-                else if (level % WheelSpinDemo.safeMod == 0)
-                    zoneColor = safeZoneColor;
+                var item = Instantiate(itemPrefab, content);
+                _items.Add(item);
 
-                _items[i].SetLevel(level, zoneColor);
+                var rect = item.transform as RectTransform;
+                rect.anchoredPosition = new Vector2(i * itemSpacing, 0);
             }
-
-            _items[i].SetActive(i == _centerIndex);
         }
-    }
 
-    private void AnimateShift()
-    {
-        content.DOKill();
+        public void SetLevel(int level)
+        {
+            if (level <= _currentZone)
+                return;
 
-        content
-            .DOAnchorPosX(-itemSpacing, moveDuration)
-            .SetEase(Ease.OutCubic)
-            .OnComplete(() =>
+            _currentZone = level;
+            AnimateShift();
+        }
+
+        private void UpdateVisuals()
+        {
+            for (int i = 0; i < _items.Count; i++)
             {
-                content.anchoredPosition = Vector2.zero;
-                UpdateVisuals();
-            });
-    }
+                int level = _currentZone + (i - _centerIndex);
 
-    private void ClearItems()
-    {
-        int length = content.childCount;
-        for (int i = length - 1; i >= 0; i--)
-            Destroy(content.GetChild(i).gameObject);
+                if (level < 1)
+                {
+                    _items[i].SetLevel(-1, defaultZoneColor); //sets Empty
+                }
+                else
+                {
+                    Color zoneColor = defaultZoneColor;
+                    if (level % WheelSpinDemo.superMod == 0)
+                        zoneColor = superZoneColor;
+                    else if (level % WheelSpinDemo.safeMod == 0)
+                        zoneColor = safeZoneColor;
+
+                    _items[i].SetLevel(level, zoneColor);
+                }
+
+                _items[i].SetActive(i == _centerIndex);
+            }
+        }
+
+        private void AnimateShift()
+        {
+            content.DOKill();
+
+            content
+                .DOAnchorPosX(-itemSpacing, moveDuration)
+                .SetEase(Ease.OutCubic)
+                .OnComplete(() =>
+                {
+                    content.anchoredPosition = Vector2.zero;
+                    UpdateVisuals();
+                });
+        }
+
+        private void ClearItems()
+        {
+            int length = content.childCount;
+            for (int i = length - 1; i >= 0; i--)
+                Destroy(content.GetChild(i).gameObject);
+        }
     }
 }

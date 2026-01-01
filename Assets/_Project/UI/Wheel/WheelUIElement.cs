@@ -4,15 +4,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WheelUIElement : MonoBehaviour
+namespace FortuneWheel.UI
 {
-    [Header("UI")]
-    [SerializeField] private Image rewardIcon;
-    [SerializeField] private TextMeshProUGUI rewardAmountText;
-
-    public void UpdateUI(WheelSliceDefinition sliceDef)
+    public class WheelUIElement : MonoBehaviour
     {
-        rewardIcon.sprite = sliceDef.Reward.ShowcaseIcon;
-        rewardAmountText.text = "x" + sliceDef.Reward.Amount.ToString();
+        [Header("UI")]
+        [SerializeField] private Image rewardIcon;
+        [SerializeField] private TextMeshProUGUI rewardAmountText;
+
+        public void UpdateUI(WheelSliceDefinition sliceDef)
+        {
+            rewardIcon.sprite = sliceDef.Reward.ShowcaseIcon;
+            rewardAmountText.text = "x" + sliceDef.Reward.Amount.ToString();
+        }
     }
 }
