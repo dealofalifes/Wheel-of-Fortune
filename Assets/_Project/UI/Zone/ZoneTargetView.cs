@@ -39,5 +39,21 @@ namespace FortuneWheel.UI
 
             return ((currentZone + mod - 1) / mod) * mod;
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            AutoBindReferences();
+        }
+
+        private void AutoBindReferences()
+        {
+            if (superZoneText == null)
+                superZoneText = FortuneComponentFinder.FindTextByName("super_zone_level", transform);
+
+            if (safeZoneText == null)
+                safeZoneText = FortuneComponentFinder.FindTextByName("safe_zone_level", transform);
+        }
+#endif
     }
 }

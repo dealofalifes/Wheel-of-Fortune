@@ -44,52 +44,55 @@ namespace FortuneWheel.UI
         {
             spinButton.interactable = false;
 
+            wheelRoot.localEulerAngles =
+                new Vector3(0, 0, Mathf.Repeat(wheelRoot.localEulerAngles.z, 360f));
+
             const int sliceCount = 8;
             float anglePerSlice = 360f / sliceCount;
 
             float targetAngle = sliceIndex * anglePerSlice;
             float mainSpinAngle = extraRotations * 360f - targetAngle;
 
-            float overshootAngle = UnityEngine.Random.Range(5f, 15f);
-            float wobbleAngle = 3f;
+            float wobbleAngle = 15f;
 
             spinTween?.Kill();
 
             Sequence seq = DOTween.Sequence();
 
-            // 1. FAST START + MAIN SPIN
+            // 1. MAIN SPIN (absolute, can exceed 360)
             seq.Append(
                 wheelRoot.DORotate(
-                    new Vector3(0, 0, -(mainSpinAngle + overshootAngle)),
+                    new Vector3(0, 0, -(mainSpinAngle + wobbleAngle)),
                     spinDuration,
                     RotateMode.FastBeyond360
-                ).SetEase(Ease.OutQuart) // important
+                ).SetEase(Ease.OutFlash) //OutFlash
             );
 
-            // 2. MICRO VIBRATION (left-right-left-stop)
+            // 2. WOBBLE (RELATIVE — THIS IS THE FIX)
+
             seq.Append(
                 wheelRoot.DORotate(
-                    new Vector3(0, 0, -(mainSpinAngle - wobbleAngle)),
+                    new Vector3(0, 0, wobbleAngle),
                     settleBackDuration,
-                    RotateMode.Fast
-                ).SetEase(Ease.InOutSine)
+                    RotateMode.LocalAxisAdd
+                ).SetEase(Ease.OutElastic)
             );
 
-            seq.Append(
-                wheelRoot.DORotate(
-                    new Vector3(0, 0, -(mainSpinAngle + wobbleAngle * 0.5f)),
-                    settleBackDuration / 2f,
-                    RotateMode.Fast
-                ).SetEase(Ease.InOutSine)
-            );
+            //seq.Append(
+            //    wheelRoot.DORotate(
+            //        new Vector3(0, 0, -wobbleAngle * 1.5f),
+            //        settleBackDuration * 0.5f,
+            //        RotateMode.LocalAxisAdd
+            //    ).SetEase(Ease.InOutSine)
+            //);
 
-            seq.Append(
-                wheelRoot.DORotate(
-                    new Vector3(0, 0, -mainSpinAngle),
-                    settleBackDuration / 2f,
-                    RotateMode.Fast
-                ).SetEase(Ease.OutSine)
-            );
+            //seq.Append(
+            //    wheelRoot.DORotate(
+            //        new Vector3(0, 0, +wobbleAngle * 0.5f),
+            //        settleBackDuration * 0.5f,
+            //        RotateMode.LocalAxisAdd
+            //    ).SetEase(Ease.OutSine)
+            //);
 
             seq.OnComplete(() =>
             {
@@ -99,6 +102,7 @@ namespace FortuneWheel.UI
 
             spinTween = seq;
         }
+
 
         private void SetSpinButtonInteractable()
         {
@@ -145,5 +149,24 @@ namespace FortuneWheel.UI
             Silver,
             Gold,
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            AutoBindReferences();
+        }
+
+        private void AutoBindReferences()
+        {
+            if (spinButton == null)
+                spinButton = FortuneComponentFinder.FindButtonByName("spin", transform);
+
+            if (wheelImage == null)
+                wheelImage = FortuneComponentFinder.FindImageByName("image_wheel", transform);
+
+            if (indicatorImage == null)
+                indicatorImage = FortuneComponentFinder.FindImageByName("image_indicator", transform);
+        }
+#endif
     }
 }

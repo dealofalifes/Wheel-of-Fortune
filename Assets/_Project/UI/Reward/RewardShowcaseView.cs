@@ -184,6 +184,37 @@ namespace FortuneWheel.UI
             rewardIcon.transform.localScale = rewardIconBaseScale;
             rewardGlowEffectImage.transform.localRotation = Quaternion.identity;
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            AutoBindReferences();
+        }
+
+        private void AutoBindReferences()
+        {
+            if (containerCanvasGroup == null)
+                containerCanvasGroup = FortuneComponentFinder.FindCanvasGroupByName("container", transform);
+
+            if (claimButtonCanvasGroup == null)
+                claimButtonCanvasGroup = FortuneComponentFinder.FindCanvasGroupByName("claim", transform);
+
+            if (rewardNameText == null)
+                rewardNameText = FortuneComponentFinder.FindTextByName("reward_name", transform);
+
+            if (rewardAmountText == null)
+                rewardAmountText = FortuneComponentFinder.FindTextByName("reward_amount", transform);
+
+            if (claimButton == null)
+                claimButton = FortuneComponentFinder.FindButtonByName("claim", transform);
+
+            if (rewardIcon == null)
+                rewardIcon = FortuneComponentFinder.FindImageByName("reward_icon", transform);
+
+            if (rewardGlowEffectImage == null)
+                rewardGlowEffectImage = FortuneComponentFinder.FindImageByName("glow_effect", transform);
+        }
+#endif
     }
 }
 

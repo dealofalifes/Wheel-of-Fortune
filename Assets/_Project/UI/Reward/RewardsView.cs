@@ -55,5 +55,18 @@ namespace FortuneWheel.UI
             for (int i = length - 1; i >= 0; i--)
                 Destroy(rewardPrefabsHolder.GetChild(i).gameObject);
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            AutoBindReferences();
+        }
+
+        private void AutoBindReferences()
+        {
+            if (exitButton == null)
+                exitButton = FortuneComponentFinder.FindButtonByName("exit", transform);
+        }
+#endif
     }
 }
