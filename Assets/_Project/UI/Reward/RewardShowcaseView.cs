@@ -12,7 +12,7 @@ namespace FortuneWheel.UI
         [SerializeField] private TextMeshProUGUI rewardNameText;
         [SerializeField] private TextMeshProUGUI rewardAmountText;
         [SerializeField] private Image rewardIcon;
-        [SerializeField] private Image rewardGlowEffectImage;
+        [SerializeField] private Image rewardGlowEffect;
         [SerializeField] private Button claimButton;
         [SerializeField] private CanvasGroup containerCanvasGroup;
         [SerializeField] private CanvasGroup claimButtonCanvasGroup;
@@ -54,7 +54,7 @@ namespace FortuneWheel.UI
             rewardAmountText.text = "x" + amount;
             rewardIcon.sprite = reward.ShowcaseIcon;
 
-            rewardGlowEffectImage.color = reward.UiColor;
+            rewardGlowEffect.color = reward.UiColor;
 
             openRoutine = StartCoroutine(OpenSequence());
             glowRoutine = StartCoroutine(GlowRotationLoop());
@@ -109,7 +109,7 @@ namespace FortuneWheel.UI
         {
             while (true)
             {
-                rewardGlowEffectImage.transform.Rotate(0f, 0f, -glowRotationSpeed * Time.deltaTime);
+                rewardGlowEffect.transform.Rotate(0f, 0f, -glowRotationSpeed * Time.deltaTime);
                 yield return null;
             }
         }
@@ -182,7 +182,7 @@ namespace FortuneWheel.UI
             claimButtonCanvasGroup.blocksRaycasts = false;
 
             rewardIcon.transform.localScale = rewardIconBaseScale;
-            rewardGlowEffectImage.transform.localRotation = Quaternion.identity;
+            rewardGlowEffect.transform.localRotation = Quaternion.identity;
         }
 
 #if UNITY_EDITOR
@@ -211,8 +211,8 @@ namespace FortuneWheel.UI
             if (rewardIcon == null)
                 rewardIcon = FortuneComponentFinder.FindImageByName("reward_icon", transform);
 
-            if (rewardGlowEffectImage == null)
-                rewardGlowEffectImage = FortuneComponentFinder.FindImageByName("glow_effect", transform);
+            if (rewardGlowEffect == null)
+                rewardGlowEffect = FortuneComponentFinder.FindImageByName("glow_effect", transform);
         }
 #endif
     }

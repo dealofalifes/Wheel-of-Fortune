@@ -807,7 +807,7 @@ PrefabInstance:
     - target: {fileID: 6949109582043031705, guid: e6cddaef9984b5a48aba92f4bb15a636,
         type: 3}
       propertyPath: m_Name
-      value: ui_container_wheel_slot_prefab_4
+      value: ui_container_wheel_slot_04
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6cddaef9984b5a48aba92f4bb15a636, type: 3}
@@ -1411,7 +1411,7 @@ MonoBehaviour:
   restartButton: {fileID: 2025738471}
   continueButton: {fileID: 2122578206}
   bombIcon: {fileID: 1457456734}
-  bombGlowEffectImage: {fileID: 842503834}
+  bombGlowEffect: {fileID: 842503834}
   containerCanvasGroup: {fileID: 479699031}
   containerFadeDuration: 0.4
   glowRotationSpeed: 60
@@ -1872,7 +1872,7 @@ MonoBehaviour:
   rewardNameText: {fileID: 154153794}
   rewardAmountText: {fileID: 1023055942}
   rewardIcon: {fileID: 1244957927}
-  rewardGlowEffectImage: {fileID: 1003049368}
+  rewardGlowEffect: {fileID: 1003049368}
   claimButton: {fileID: 2097805386}
   containerCanvasGroup: {fileID: 376688627}
   claimButtonCanvasGroup: {fileID: 2097805387}
@@ -2244,8 +2244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75fb0e764a2a5d8459bdd39f8b073e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  superZoneText: {fileID: 1285463920}
-  safeZoneText: {fileID: 1116745488}
+  superZoneLevelText: {fileID: 1285463920}
+  safeZoneLevelText: {fileID: 1116745488}
 --- !u!224 &640955753 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4263406727120419515, guid: e6cddaef9984b5a48aba92f4bb15a636,
@@ -2372,7 +2372,7 @@ PrefabInstance:
     - target: {fileID: 6949109582043031705, guid: e6cddaef9984b5a48aba92f4bb15a636,
         type: 3}
       propertyPath: m_Name
-      value: ui_container_wheel_slot_prefab_6
+      value: ui_container_wheel_slot_06
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6cddaef9984b5a48aba92f4bb15a636, type: 3}
@@ -2514,6 +2514,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7889b3d7160bb5b44b0254c8980e2aa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectRewardsButton: {fileID: 2090766409}
+  goBackButton: {fileID: 1807138127}
+  containerCanvasGroup: {fileID: 1830956915}
+  containerFadeDuration: 0.4
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -3938,7 +3942,7 @@ PrefabInstance:
     - target: {fileID: 6949109582043031705, guid: e6cddaef9984b5a48aba92f4bb15a636,
         type: 3}
       propertyPath: m_Name
-      value: ui_container_wheel_slot_prefab_2
+      value: ui_container_wheel_slot_02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6cddaef9984b5a48aba92f4bb15a636, type: 3}
@@ -4328,7 +4332,7 @@ PrefabInstance:
     - target: {fileID: 6949109582043031705, guid: e6cddaef9984b5a48aba92f4bb15a636,
         type: 3}
       propertyPath: m_Name
-      value: ui_container_wheel_slot_prefab_8
+      value: ui_container_wheel_slot_08
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6cddaef9984b5a48aba92f4bb15a636, type: 3}
@@ -4960,7 +4964,7 @@ PrefabInstance:
     - target: {fileID: 6949109582043031705, guid: e6cddaef9984b5a48aba92f4bb15a636,
         type: 3}
       propertyPath: m_Name
-      value: ui_container_wheel_slot_prefab_3
+      value: ui_container_wheel_slot_03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6cddaef9984b5a48aba92f4bb15a636, type: 3}
@@ -5753,7 +5757,7 @@ PrefabInstance:
     - target: {fileID: 6949109582043031705, guid: e6cddaef9984b5a48aba92f4bb15a636,
         type: 3}
       propertyPath: m_Name
-      value: ui_container_wheel_slot_prefab_5
+      value: ui_container_wheel_slot_05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6cddaef9984b5a48aba92f4bb15a636, type: 3}
@@ -6227,7 +6231,7 @@ GameObject:
   - component: {fileID: 2005015366}
   - component: {fileID: 2005015365}
   m_Layer: 5
-  m_Name: ui_image_wheel
+  m_Name: ui_image_wheel_root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6554,7 +6558,7 @@ PrefabInstance:
     - target: {fileID: 6949109582043031705, guid: e6cddaef9984b5a48aba92f4bb15a636,
         type: 3}
       propertyPath: m_Name
-      value: ui_container_wheel_slot_prefab_7
+      value: ui_container_wheel_slot_07
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6cddaef9984b5a48aba92f4bb15a636, type: 3}
@@ -7225,7 +7229,7 @@ PrefabInstance:
     - target: {fileID: 6949109582043031705, guid: e6cddaef9984b5a48aba92f4bb15a636,
         type: 3}
       propertyPath: m_Name
-      value: ui_container_wheel_slot_prefab_1
+      value: ui_container_wheel_slot_01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6cddaef9984b5a48aba92f4bb15a636, type: 3}

@@ -8,8 +8,8 @@ namespace FortuneWheel.UI
     public class ZoneTargetView : MonoBehaviour
     {
         [Header("UI")]
-        [SerializeField] private TextMeshProUGUI superZoneText;
-        [SerializeField] private TextMeshProUGUI safeZoneText;
+        [SerializeField] private TextMeshProUGUI superZoneLevelText;
+        [SerializeField] private TextMeshProUGUI safeZoneLevelText;
 
         public void Init()
         {
@@ -28,8 +28,8 @@ namespace FortuneWheel.UI
             if (nextSafeZone == nextSuperZone)
                 nextSafeZone += safeMod;
 
-            safeZoneText.text = nextSafeZone.ToString();
-            superZoneText.text = nextSuperZone.ToString();
+            safeZoneLevelText.text = nextSafeZone.ToString();
+            superZoneLevelText.text = nextSuperZone.ToString();
         }
 
         private int GetNextOrCurrentZone(int currentZone, int mod)
@@ -48,11 +48,11 @@ namespace FortuneWheel.UI
 
         private void AutoBindReferences()
         {
-            if (superZoneText == null)
-                superZoneText = FortuneComponentFinder.FindTextByName("super_zone_level", transform);
+            if (superZoneLevelText == null)
+                superZoneLevelText = FortuneComponentFinder.FindTextByName("super_zone_level", transform);
 
-            if (safeZoneText == null)
-                safeZoneText = FortuneComponentFinder.FindTextByName("safe_zone_level", transform);
+            if (safeZoneLevelText == null)
+                safeZoneLevelText = FortuneComponentFinder.FindTextByName("safe_zone_level", transform);
         }
 #endif
     }

@@ -13,7 +13,7 @@ namespace FortuneWheel.UI
         [SerializeField] private Button continueButton;
 
         [SerializeField] private Image bombIcon;
-        [SerializeField] private Image bombGlowEffectImage;
+        [SerializeField] private Image bombGlowEffect;
 
         [SerializeField] private CanvasGroup containerCanvasGroup;
 
@@ -92,7 +92,7 @@ namespace FortuneWheel.UI
         {
             while (true)
             {
-                bombGlowEffectImage.transform.Rotate(0f, 0f, -glowRotationSpeed * Time.deltaTime);
+                bombGlowEffect.transform.Rotate(0f, 0f, -glowRotationSpeed * Time.deltaTime);
                 yield return null;
             }
         }
@@ -159,7 +159,7 @@ namespace FortuneWheel.UI
             containerCanvasGroup.blocksRaycasts = false;
 
             bombIcon.transform.localScale = rewardIconBaseScale;
-            bombGlowEffectImage.transform.localRotation = Quaternion.identity;
+            bombGlowEffect.transform.localRotation = Quaternion.identity;
         }
 
 
@@ -184,8 +184,8 @@ namespace FortuneWheel.UI
             if (bombIcon == null)
                 bombIcon = FortuneComponentFinder.FindImageByName("bomb_icon", transform);
 
-            if (bombGlowEffectImage == null)
-                bombGlowEffectImage = FortuneComponentFinder.FindImageByName("glow_effect", transform);
+            if (bombGlowEffect == null)
+                bombGlowEffect = FortuneComponentFinder.FindImageByName("glow_effect", transform);
         }
 #endif
     }
