@@ -62,7 +62,7 @@ namespace FortuneWheel
 
             reviveView.Init(OnRestartButtonClicked);
 
-            exitView.Init();
+            exitView.Init(OnCollectRewardsButtonClicked);
         }
 
         private void Spin()
@@ -125,11 +125,19 @@ namespace FortuneWheel
 
         public void OnExitButtonClicked()
         {
-
+            exitView.Open();
         }
 
         public void OnRestartButtonClicked()
         {
+            isSpinning = true;
+
+            Invoke(nameof(StartGame), 1);
+        }
+
+        public void OnCollectRewardsButtonClicked()
+        {
+            Debug.Log("Rewards has been collected!");
             isSpinning = true;
 
             Invoke(nameof(StartGame), 1);
@@ -144,19 +152,48 @@ namespace FortuneWheel
 
         private void FindReferences()
         {
+            //Setup Views
             if (wheelView == null)
-            {
-                var wheelViewRef = FindFirstObjectByType<WheelView>();
+                wheelView = FindFirstObjectByType<WheelView>();
 
-                if (wheelViewRef != null)
-                {
-                    wheelView = wheelViewRef;
-                }
-                else
-                {
-                    Debug.LogError("There is no WheelView Component on the Scene!");
-                }
-            }
+            if (wheelView == null)
+                Debug.LogError("There is no WheelView Component on the Scene!");
+
+            if (zoneView == null)
+                zoneView = FindFirstObjectByType<HeaderZoneView>();
+
+            if (zoneView == null)
+                Debug.LogError("There is no HeaderZoneView Component on the Scene!");
+
+            if (rewardView == null)
+                rewardView = FindFirstObjectByType<RewardsView>();
+
+            if (rewardView == null)
+                Debug.LogError("There is no RewardsView Component on the Scene!");
+
+            if (showcaseView == null)
+                showcaseView = FindFirstObjectByType<RewardShowcaseView>();
+
+            if (showcaseView == null)
+                Debug.LogError("There is no RewardShowcaseView Component on the Scene!");
+
+            if (zoneTargetView == null)
+                zoneTargetView = FindFirstObjectByType<ZoneTargetView>();
+
+            if (zoneTargetView == null)
+                Debug.LogError("There is no ZoneTargetView Component on the Scene!");
+
+            if (reviveView == null)
+                reviveView = FindFirstObjectByType<ReviveView>();
+
+            if (reviveView == null)
+                Debug.LogError("There is no ReviveView Component on the Scene!");
+
+            if (exitView == null)
+                exitView = FindFirstObjectByType<ExitView>();
+
+            if (exitView == null)
+                Debug.LogError("There is no ExitView Component on the Scene!");
         }
 
         private void CollectAndSortZoneConfigs()
