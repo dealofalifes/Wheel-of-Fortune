@@ -30,7 +30,7 @@ Secure and collect all accumulated rewards, or Continue spinning to chase higher
 This section provides direct access to the latest playable build of the game for testing or review purposes.
 
 ## ➡️ Click here to download the latest .apk release                                                                
-https://github.com/dealofalifes/Wheel-of-Fortune/Release_Build
+https://github.com/dealofalifes/Wheel-of-Fortune/tree/main/Release_Build  
 
 The build is compiled in Release mode and intended for real-device testing.
 
