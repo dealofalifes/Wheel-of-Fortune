@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: riflePoint_1
   RewardName: Rifle Point
-  ShowcaseIcon: {fileID: 21300000, guid: 755c9b2e08f7e454a848bac782319ec4, type: 3}
-  RewardIcon: {fileID: 21300000, guid: 03b80e03f625e414d8846224cc1357a8, type: 3}
+  ShowcaseIcon: {fileID: 1111130165, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
+  RewardIcon: {fileID: 287176531, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
   Type: 4
   Amount: 1
   UiColor: {r: 0.36862743, g: 0.73488337, b: 1, a: 1}

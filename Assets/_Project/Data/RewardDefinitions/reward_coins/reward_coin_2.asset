@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: coin_2
   RewardName: Coin
-  ShowcaseIcon: {fileID: 21300000, guid: 8ba63a699d6a19744b39edaa03fd9025, type: 3}
-  RewardIcon: {fileID: 21300000, guid: 8ba63a699d6a19744b39edaa03fd9025, type: 3}
+  ShowcaseIcon: {fileID: -312225320, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
+  RewardIcon: {fileID: -312225320, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
   Type: 1
   Amount: 2
   UiColor: {r: 0.9082471, g: 1, b: 0.3679244, a: 1}

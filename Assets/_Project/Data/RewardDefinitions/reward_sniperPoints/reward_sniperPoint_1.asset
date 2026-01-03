@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: sniperPoint_1
   RewardName: Sniper Point
-  ShowcaseIcon: {fileID: 21300000, guid: bb67d6f7534cb074faac2135d6c3d286, type: 3}
-  RewardIcon: {fileID: 21300000, guid: ea7cbeced356d0c43a29d88d65a00485, type: 3}
+  ShowcaseIcon: {fileID: 478480734, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
+  RewardIcon: {fileID: 342321339, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
   Type: 6
   Amount: 1
   UiColor: {r: 0.36862743, g: 0.73488337, b: 1, a: 1}

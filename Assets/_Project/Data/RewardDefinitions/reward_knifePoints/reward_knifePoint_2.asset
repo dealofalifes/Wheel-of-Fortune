@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: knifePoint_2
   RewardName: Knife Point
-  ShowcaseIcon: {fileID: 21300000, guid: edd14b6d0f8323c4daa05fcda1b92351, type: 3}
-  RewardIcon: {fileID: 21300000, guid: 3ff55e0f62c097d44a0062f70ad2dbf0, type: 3}
+  ShowcaseIcon: {fileID: 1993864797, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
+  RewardIcon: {fileID: -810776446, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
   Type: 3
   Amount: 2
   UiColor: {r: 0.36862743, g: 0.73488337, b: 1, a: 1}

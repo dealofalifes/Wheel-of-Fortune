@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: commonChest
   RewardName: Bronze Chest
-  ShowcaseIcon: {fileID: 21300000, guid: 1cd71ac02fc8a8f41b68020b33e35c95, type: 3}
-  RewardIcon: {fileID: 21300000, guid: 1cd71ac02fc8a8f41b68020b33e35c95, type: 3}
+  ShowcaseIcon: {fileID: 1465623644, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
+  RewardIcon: {fileID: 1465623644, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
   Type: 7
   Amount: 1
   UiColor: {r: 0.4609065, g: 1, b: 0.36862743, a: 1}

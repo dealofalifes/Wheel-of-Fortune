@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: cash_600
   RewardName: Cash
-  ShowcaseIcon: {fileID: 21300000, guid: ced824698e85f684f816f01356690f14, type: 3}
-  RewardIcon: {fileID: 21300000, guid: ced824698e85f684f816f01356690f14, type: 3}
+  ShowcaseIcon: {fileID: 255087569, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
+  RewardIcon: {fileID: 255087569, guid: 4b3ede7062751fd4e9aaa313298ab67a, type: 3}
   Type: 0
   Amount: 600
   UiColor: {r: 0.6924528, g: 1, b: 0.71903104, a: 1}

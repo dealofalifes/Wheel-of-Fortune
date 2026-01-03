@@ -21,6 +21,7 @@ namespace FortuneWheel.UI
             ClearRewardElements();
             _rewardElements.Clear();
 
+            exitButton.interactable = false;
             exitButton.onClick.RemoveAllListeners();
             exitButton.onClick.AddListener(() => onExitButtonClicked?.Invoke());
         }
@@ -30,6 +31,19 @@ namespace FortuneWheel.UI
         {
             foreach (var kvp in rewards)
                 UpdateReward(kvp.Key, kvp.Value);
+        }
+
+        public void SetExitStateActive(bool active)
+        {
+            if (!active)
+                exitButton.interactable = active;
+            else
+                Invoke(nameof(ActivateButtonDelayed), 1f);
+        }
+
+        private void ActivateButtonDelayed()
+        {
+            exitButton.interactable = true;
         }
 
         public void UpdateReward(RewardDefinition rewardDef, int amount)

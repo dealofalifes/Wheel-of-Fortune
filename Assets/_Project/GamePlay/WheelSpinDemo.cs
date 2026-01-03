@@ -74,6 +74,8 @@ namespace FortuneWheel
             currentSliceDefinition = currentZoneConfig.Slices[sliceIndex];
 
             wheelView.OnSpinStart(OnSpinEnd, sliceIndex);
+
+            rewardView.SetExitStateActive(false);
         }
 
         public void OnSpinEnd()
@@ -91,7 +93,10 @@ namespace FortuneWheel
                 currentZoneConfig = PickNewZone();
 
                 wheelView.UpdateUI(currentZoneConfig, currentZone);
+
                 rewardView.UpdateReward(currentSliceDefinition.Reward, totalAmount);
+                rewardView.SetExitStateActive(IsItSpecialZone());
+
                 zoneView.SetLevel(currentZone);
 
                 showcaseView.Open(currentSliceDefinition.Reward, currentSliceDefinition.Reward.Amount);
@@ -133,6 +138,11 @@ namespace FortuneWheel
             isSpinning = true;
 
             Invoke(nameof(StartGame), 1);
+        }
+
+        public bool IsItSpecialZone()
+        {
+            return currentZone % WheelSpinDemo.safeMod == 0 || currentZone % WheelSpinDemo.superMod == 0;
         }
 
         public void OnCollectRewardsButtonClicked()
