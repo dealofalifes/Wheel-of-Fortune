@@ -53,7 +53,7 @@ These images highlight support for modern tall mobile screens, ensuring UI scali
 https://drive.google.com/file/d/1yyxToMcZDiCy1rJBCaG28EbotRUgi--W/view?usp=sharing
 
 ### 🛠️ Built With
-*Unity
-*C#
-*DOTween
-*Sprite Atlas
+*Unity  
+*C#  
+*DOTween  
+*Sprite Atlas  
