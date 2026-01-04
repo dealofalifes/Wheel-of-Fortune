@@ -49,7 +49,7 @@ These images highlight support for modern tall mobile screens, ensuring UI scali
 
 <p float="left"> <img src="Resolution Screenshots/20_9-(1).jpg" width="45%" /> <img src="Resolution Screenshots/20_9-(2).jpg" width="45%" /> </p>
 
-➡️ Click here to watch gameplay video 
+➡️ Click here to watch gameplay video   
 https://drive.google.com/file/d/1yyxToMcZDiCy1rJBCaG28EbotRUgi--W/view?usp=sharing
 
 ### 🛠️ Built With
